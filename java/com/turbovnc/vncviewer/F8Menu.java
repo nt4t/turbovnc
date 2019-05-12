@@ -153,7 +153,7 @@ public class F8Menu extends JPopupMenu implements ActionListener {
       cc.toggleToolbar();
       showToolbar.setSelected(cc.showToolbar);
     } else if (actionMatch(ev, viewOnly)) {
-      vlog.info(".... " + viewOnly.isSelected());
+      //vlog.info("viewOnly: " + viewOnly.isSelected());
       cc.toggleViewOnly();
     } else if (actionMatch(ev, defaultSize)) {
       cc.sizeWindow();

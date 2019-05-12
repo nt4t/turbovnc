@@ -38,7 +38,7 @@ public class Toolbar extends JToolBar implements ActionListener {
     "Request screen refresh", "Request lossless refresh",
     "Send Ctrl-Alt-Del", "Send Ctrl-Esc",
     "Send Ctrl key press/release", "Send Alt key press/release",
-    "New Connection...", "Disconnect"
+    "New Connection...", "Disconnect", "View Only"
   };
 
   private final ClassLoader cl = getClass().getClassLoader();
@@ -50,14 +50,14 @@ public class Toolbar extends JToolBar implements ActionListener {
     super();
     cc = cc_;
     BufferedImage bi =
-      new BufferedImage(176, 16, BufferedImage.TYPE_INT_ARGB);
+      new BufferedImage(192, 16, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = bi.createGraphics();
-    g.drawImage(toolbarImage, 0, 0, 176, 16, null);
+    g.drawImage(toolbarImage, 0, 0, 192, 16, null);
     setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
     setAlignmentY(java.awt.Component.CENTER_ALIGNMENT);
     setFloatable(false);
     setBorder(new EmptyBorder(1, 2, 1, 0));
-    for (int i = 0; i < 11; i++) {
+    for (int i = 0; i < 12; i++) {
       if (i >= 5 && i <= 8 && cc.opts.viewOnly)
         continue;
       if (i >= 9 && i <= 10 && VncViewer.noNewConn.getValue())
@@ -90,7 +90,8 @@ public class Toolbar extends JToolBar implements ActionListener {
       add(Box.createHorizontalStrut(2));
       if (i == 1 ||
           (i == 4 && (!cc.opts.viewOnly || !VncViewer.noNewConn.getValue())) ||
-          (i == 8 && !VncViewer.noNewConn.getValue())) {
+          (i == 8 && !VncViewer.noNewConn.getValue()) ||
+          i == 10) {
         // ref http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4346610
         add(new JSeparator(JSeparator.VERTICAL) {
           public Dimension getMaximumSize() {
@@ -147,6 +148,9 @@ public class Toolbar extends JToolBar implements ActionListener {
       VncViewer.newViewer(cc.viewer);
     } else if (((AbstractButton)s).getName() == BUTTONS[10]) {
       cc.close();
+    }
+    else if (((AbstractButton)s).getName() == BUTTONS[11]) {
+      cc.toggleViewOnly();
     }
   }
 
