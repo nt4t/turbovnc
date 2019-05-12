@@ -95,6 +95,16 @@ public class F8Menu extends JPopupMenu implements ActionListener {
     about = addMenuItem("About TurboVNC Viewer...", KeyEvent.VK_A);
     addSeparator();
     dismiss = addMenuItem("Dismiss Menu");
+
+    addSeparator();
+    viewOnly = new JCheckBoxMenuItem("View Only");
+    viewOnly.setMnemonic(KeyEvent.VK_T);
+    viewOnly.setSelected(cc.opts.viewOnly);
+    viewOnly.addActionListener(this);
+    viewOnly.setEnabled(VncViewer.viewOnlyControl.getValue());
+    add(viewOnly);
+
+
     setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 
     if (VncViewer.osGrab())
@@ -142,6 +152,9 @@ public class F8Menu extends JPopupMenu implements ActionListener {
     } else if (actionMatch(ev, showToolbar)) {
       cc.toggleToolbar();
       showToolbar.setSelected(cc.showToolbar);
+    } else if (actionMatch(ev, viewOnly)) {
+      vlog.info(".... " + viewOnly.isSelected());
+      cc.toggleViewOnly();
     } else if (actionMatch(ev, defaultSize)) {
       cc.sizeWindow();
       firePopupMenuCanceled();
@@ -198,7 +211,7 @@ public class F8Menu extends JPopupMenu implements ActionListener {
   JMenuItem exit, clipboard, ctrlAltDel, ctrlEsc, refresh, losslessRefresh;
   JMenuItem newConn, options, info, profile, about, dismiss;
   static JMenuItem f8;
-  JCheckBoxMenuItem fullScreen, showToolbar, grabKeyboard;
+  JCheckBoxMenuItem fullScreen, showToolbar, grabKeyboard, viewOnly;
 
   static LogWriter vlog = new LogWriter("F8Menu");
 }

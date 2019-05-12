@@ -1694,6 +1694,15 @@ public class CConn extends CConnection implements UserPasswdGetter,
   }
 
   // EDT
+  public void toggleViewOnly() {
+    opts.viewOnly = !opts.viewOnly;
+    if (viewport != null) {
+      recreateViewport();
+    }
+    menu.viewOnly.setSelected(opts.viewOnly);
+  }
+
+  // EDT
   public void toggleToolbar() {
     if (opts.fullScreen)
       return;
